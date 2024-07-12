@@ -68,13 +68,5 @@ public class Autor {
         return listaLibros;
     }
 
-    @Override
-    public String toString() {
-        return "Autor{" +
-                ", nombre='" + nombre + '\'' +
-                ", fechaNacimiento=" + fechaNacimiento +
-                ", fechaMuerte=" + fechaMuerte +
-                ", listaLibros=" + listaLibros +
-                '}';
-    }
+
 }

@@ -142,6 +142,10 @@ public class Principal {
     }
     private void mostrarLibro(Libro libro){
         String lenguajes=formatoIdioma(libro);
+        System.out.println(libro);
+        String titulo = libro.getTitle()==null?"Sin titulo": libro.getTitle();
+        String autor = libro.getAutor()==null?"Sin autor": libro.getAutor().getNombre();
+        int descargas = libro.getDescargas()==null?0:libro.getDescargas();
         String INFO_LIBRO=String.format(
                 "--------------------------Libro--------------------------"+
                         "\nTitulo: %s"+
@@ -150,12 +154,17 @@ public class Principal {
                         "\nNumero de Descargas: %d"+
                         "\n---------------------------------------------------------"
 
-                ,libro.getTitle(),libro.getAutor().getNombre(), lenguajes,libro.getDescargas());
+                ,titulo,autor, lenguajes,descargas);
         System.out.println(INFO_LIBRO);
     }
     private void mostrarAutor(Autor autor){
         List<String> nombreLibros = new ArrayList<>();
         autor.getListaLibros().forEach(e->nombreLibros.add(e.getTitle()));
+        System.out.println("Soy los libros " + nombreLibros);
+        String nombre = autor.getNombre()==null?"Sin autor":autor.getNombre();
+        int fechaNacimiento = autor.getFechaNacimiento()==null?0: autor.getFechaNacimiento();
+        int fechaMuerte = autor.getFechaMuerte()==null?0: autor.getFechaMuerte();
+
         String INFO_AUTOR=String.format(
                 "--------------------------Autor--------------------------"+
                         "\nNombre: %s"+
@@ -164,7 +173,7 @@ public class Principal {
                         "\nLista de Libros: %s"+
                         "\n---------------------------------------------------------"
 
-                ,autor.getNombre(),autor.getFechaNacimiento(),autor.getFechaMuerte(),nombreLibros);
+                ,nombre,fechaNacimiento,fechaMuerte,nombreLibros);
         System.out.println(INFO_AUTOR);
     }
     private String formatoIdioma(Libro libro){
@@ -213,7 +222,9 @@ public class Principal {
     }
     private void traerLibrosRegistrados() {
         List<Libro> listaLibros = repositoryLibro.findAll();
-        if(listaLibros.size()!=0){
+        System.out.println("Soy libro lista " + listaLibros);
+        System.out.println(listaLibros);
+        if( listaLibros!=null && listaLibros.size()!=0){
             listaLibros.forEach(this::mostrarLibro);
         }else{
             System.out.println("No hay libros guardados en la base de datos");
@@ -221,7 +232,7 @@ public class Principal {
     }
     private void traerAutoresRegistrados() {
         List<Autor> listaAutores = repostoryAutor.findAll();
-        if(listaAutores.size()!=0){
+        if(listaAutores!=null && listaAutores.size()!=0 ){
             listaAutores.forEach(this::mostrarAutor);
         }else {
             System.out.println("No hay autores guardados en la base de datos");
@@ -232,7 +243,7 @@ public class Principal {
         int age= sc.nextInt();
         sc.nextLine();
         List<Autor> listaAutores = repostoryAutor.traerAutoresPorAge(age);
-        if(listaAutores.size()==0){
+        if(listaAutores!=null && listaAutores.size()==0){
             System.out.println("No hay autores registrados apartir de ese año");
         }else{
             listaAutores.forEach(this::mostrarAutor);
@@ -267,7 +278,7 @@ public class Principal {
             }
         }
           List<Libro>  listaLibros = repositoryLibro.traerLibrosPorLenguaje(lenguaje);
-        if(listaLibros.size()==0){
+        if(listaLibros==null && listaLibros.size()==0){
             System.out.println("No hay libros en ese idioma");
         }else{
             listaLibros.forEach(this::mostrarLibro);
